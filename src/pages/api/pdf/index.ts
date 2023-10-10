@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import PDFDocument, { font } from "pdfkit";
 import { fetchCrimeArrestData } from "./api";
+import path from "path";
 
 const chartWidth = 472;
 const chartHeight = 110;
@@ -18,7 +19,7 @@ const buildPDF = async (res: NextApiResponse) => {
   doc.on("end", () => res.end());
 
   // Add the logo image to the header
-  const logoImgPath = "./public/logo.png";
+  const logoImgPath = path.join(process.cwd(), "public", "logo.png");
   doc.image(logoImgPath, 20, 20, { width: 96, height: 16 });
   // Draw a bottom border on the header
   const borderGradient = doc.linearGradient(90, 0, 44, 100);
@@ -31,7 +32,11 @@ const buildPDF = async (res: NextApiResponse) => {
     .stroke();
 
   // Add the location png
-  const locationImgPath = "./public/location-share.png";
+  const locationImgPath = path.join(
+    process.cwd(),
+    "public",
+    "location-share.png"
+  );
   doc.image(locationImgPath, 20, 80, { width: 16, height: 16 });
   // add legend with horizontal lines
   doc.fontSize(10).text("Crimes", 40, 84);
