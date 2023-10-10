@@ -27,7 +27,7 @@ export const PrintIcon = () => {
         d="M3 10V15C3 17 4 18 6 18H8V15H16V18H18C20 18 21 17 21 15V10C21 8 20 7 18 7H6C4 7 3 8 3 10Z"
         stroke="white"
         strokeWidth="1.5"
-        stroke-miterlimit="10"
+        strokeMiterlimit="10"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
@@ -35,7 +35,7 @@ export const PrintIcon = () => {
         d="M7 15H8.21H17"
         stroke="white"
         strokeWidth="1.5"
-        stroke-miterlimit="10"
+        strokeMiterlimit="10"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
@@ -43,7 +43,7 @@ export const PrintIcon = () => {
         d="M17 11H14"
         stroke="white"
         strokeWidth="1.5"
-        stroke-miterlimit="10"
+        strokeMiterlimit="10"
         strokeLinecap="round"
         strokeLinejoin="round"
       />

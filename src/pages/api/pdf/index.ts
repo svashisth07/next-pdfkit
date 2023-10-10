@@ -20,6 +20,7 @@ const buildPDF = async (res: NextApiResponse) => {
 
   // Add the logo image to the header
   const logoImgPath = path.join(process.cwd(), "public", "logo.png");
+  console.log(logoImgPath);
   doc.image(logoImgPath, 20, 20, { width: 96, height: 16 });
   // Draw a bottom border on the header
   const borderGradient = doc.linearGradient(90, 0, 44, 100);
@@ -37,6 +38,7 @@ const buildPDF = async (res: NextApiResponse) => {
     "public",
     "location-share.png"
   );
+  console.log(locationImgPath);
   doc.image(locationImgPath, 20, 80, { width: 16, height: 16 });
   // add legend with horizontal lines
   doc.fontSize(10).text("Crimes", 40, 84);
