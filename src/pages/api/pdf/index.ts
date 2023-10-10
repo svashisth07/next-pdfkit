@@ -1,48 +1,68 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import PDFDocument from "pdfkit";
+import PDFDocument, { font } from "pdfkit";
 import { fetchCrimeArrestData } from "./api";
 
 const chartWidth = 472;
 const chartHeight = 110;
 const chartX = 74;
-const chartY = 130;
+const chartY = 152;
 
 const buildPDF = async (res: NextApiResponse) => {
   // build line chart with pdfkit
   const data = await fetchCrimeArrestData();
   const doc = new PDFDocument({
     size: "A4",
+    margin: 20,
   });
   doc.on("data", (chunk) => res.write(chunk));
   doc.on("end", () => res.end());
 
-  // Add the location png
-  const locationImgPath = "./public/location.png";
-  doc.image(locationImgPath, 20, 50, { width: 14, height: 10 });
+  // Add the logo image to the header
+  const logoImgPath = "./public/logo.png";
+  doc.image(logoImgPath, 20, 20, { width: 96, height: 16 });
+  // Draw a bottom border on the header
+  const borderGradient = doc.linearGradient(90, 0, 44, 100);
+  borderGradient.stop(0, "#005DFF").stop(0.44, "#00A3FF").stop(1, "#21DDFF");
+  doc
+    .strokeColor(borderGradient)
+    .moveTo(20, 50)
+    .lineTo(doc.page.width - 20, 50)
+    .lineWidth(2)
+    .stroke();
 
+  // Add the location png
+  const locationImgPath = "./public/location-share.png";
+  doc.image(locationImgPath, 20, 80, { width: 16, height: 16 });
   // add legend with horizontal lines
-  doc.fontSize(10).text("Crimes", 40, 50);
+  doc.fontSize(10).text("Crimes", 40, 84);
   const lineGradient = doc.linearGradient(90, 0, 44, 100);
-  lineGradient.stop(0, "#005DFF").stop(0.5, "#00A3FF").stop(1, "#21DDFF");
+  lineGradient.stop(0, "#005DFF").stop(0.44, "#00A3FF").stop(1, "#21DDFF");
   doc
     .strokeColor(lineGradient)
-    .moveTo(80, 55)
-    .lineTo(564, 55)
+    .moveTo(84, 88)
+    .lineTo(doc.page.width - 20, 88)
     .lineWidth(2)
     .stroke();
 
   // create a rectangle chart container section with border radius 8px
   doc
-    .roundedRect(20, 78, 548, 200, 8)
+    .roundedRect(20, 100, doc.page.width - 40, 84 + chartHeight, 8)
     .lineWidth(1)
     .fillAndStroke("#F2F4F5", "#F2F4F5");
 
   // add the chart title with background strip
-  doc.roundedRect(20, 78, 548, 24, 8).fillAndStroke("#E8EEFB", "#E8EEFB");
-  doc.fontSize(9).fillColor("#1463FF").text("Burglary", 40, 84);
-  doc.roundedRect(40, 114, 516, 152, 8).fillAndStroke("#FFF", "#FFF");
+  doc
+    .roundedRect(20, 100, doc.page.width - 40, 24, 8)
+    .fillAndStroke("#E8EEFB", "#E8EEFB");
+  doc
+    .fontSize(9)
+    .fillColor("#1463FF")
+    .text("Burglary", 38, 108, { width: 100, align: "left" });
 
-  // Draw the x-axis
+  doc
+    .roundedRect(40, 132, doc.page.width - 70, 152, 8)
+    .fillAndStroke("#FFF", "#FFF");
+
   doc
     .moveTo(chartX, chartY + chartHeight)
     .lineTo(chartX + chartWidth, chartY + chartHeight)
@@ -111,10 +131,10 @@ const buildPDF = async (res: NextApiResponse) => {
 
   //add vertical text on y-axis
   doc
-    .rotate(-90, { origin: [26, 200] })
+    .rotate(-90, { origin: [26, 220] })
     .fontSize(9)
     .fillColor("#1E1E1E")
-    .text("Arrests", 26, 200);
+    .text("Arrests", 26, 220);
 
   doc.end();
 };

@@ -8,7 +8,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## PDF Download Feature
 
-This project includes a feature that allows users to download a PDF file containing crime arrest data for the state of Alaska. To download the PDF, click the "Print" button on the home page.
+This project includes a feature that allows users to download a PDF file containing crime arrest data for a state. To download the PDF, click the "Print" button on the home page.
 
 The PDF is generated on the server using the [pdfkit](https://github.com/foliojs/pdfkit) library, and includes a chart of the crime arrest data over the years.
 
